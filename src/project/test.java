@@ -8,7 +8,9 @@ public class test {
 		
 		/*next() = 공백을 기준으로 문자열을 잘라 리턴
 		 *nextLine() = 줄바꿈 기준 문자열을 리턴
-		 *nextLine() = 문자열을 숫자로 리턴해준다. */
+		 *nextLine() = 문자열을 숫자로 리턴해준다.
+		 *ctrl + shift + o = 자동 import
+		 *ctrl + shift + f = 자동 코드정렬 */
 		Scanner sc = new Scanner(System.in); //입력
 //		String a = sc.next();
 //		System.out.println(a);
@@ -59,7 +61,7 @@ public class test {
 			System.out.println("odd");
 		}
 		
-		
+		System.out.println(1);
 		
 	}
 
