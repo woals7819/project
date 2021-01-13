@@ -1,0 +1,25 @@
+package exm1;
+
+public class duck {
+	
+	
+	
+	
+	
+	
+	void fly() {
+		System.out.println("오리가 날개로 날아갑니다.");
+	}
+
+}
+
+class cjdendduck extends duck{
+	void fly() {
+		fly();
+	}
+}
+class gmlsduck extends duck{
+	void fly() {
+		fly();
+	}
+}

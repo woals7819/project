@@ -1,0 +1,53 @@
+package project;
+
+import java.util.Scanner;
+
+public class testmain {
+
+	public static void main(String[] args) {
+		String[] ms = new String[2];
+		String[][] ms2 = new String[100][];
+		
+		int count = 1;
+		
+		Scanner sc = new Scanner(System.in);
+		
+		
+		while(true) {
+			System.out.println("명령어를 입력해 주세요. :");
+			String a = sc.next();
+			
+			if(a.equals("add")) {
+				
+					System.out.println("게시물의 제목을 입력해 주세요. :");
+					ms[0] = sc.nextLine();
+					
+					System.out.println("--------------------------");
+					
+					System.out.println("게시물의 내용을 입력해 주세요. :");
+					ms[1] = sc.nextLine();
+					
+					ms2[count] = ms;
+					System.out.println("게시물이 등록 되었습니다.");	
+				}
+			
+			else if(a.equals("list")) {
+				for(int i = 1; i < ms2.length; i++) {
+					System.out.println("제목" + count +  ms2[count][0]);
+					System.out.println("내용" + count +  ms2[count][1]);
+				}
+				count++;
+			}
+			
+			else if(a.equals("exit")) {
+				break;
+				
+				
+			}
+		}
+	}
+
+
+}
+
+
