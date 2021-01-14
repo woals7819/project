@@ -1,14 +1,17 @@
 package project;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class testmain {
 
 	public static void main(String[] args) {
-		String[][] ms2 = new String[100][];
+		int postSize = 10;
+		String[][] postArr = new String[postSize][];
 
-		int count = 0;
-		int seq = 1;
+		int count = 0;// 게시글을 읽을 카운트
+		int seq = 1; // 게시글 넘버
+		int arradd = 10;
 
 		Scanner sc = new Scanner(System.in);
 
@@ -17,40 +20,43 @@ public class testmain {
 			String a = sc.next();
 
 			if (a.equals("add")) {
-				String[] ms = new String[3];
-				ms[0] = String.valueOf(seq);
+				if (postArr.length == count) {
+					System.out.println("더 이상 게시물을 등록할 수 없습니다.");
+					
+				} else {
+					String[] titleArr = new String[3];
+					titleArr[0] = String.valueOf(seq);
 
-				System.out.println(ms[0] + "게시물의 제목을 입력해 주세요. :");
-				ms[1] = sc.next();
+					System.out.println(titleArr[0] + "번 게시물의 제목을 입력해 주세요. :");
+					titleArr[1] = sc.next();
 
-				System.out.println("--------------------------");
+					System.out.println("--------------------------");
 
-				System.out.println(ms[0] + "게시물의 내용을 입력해 주세요. :");
-				ms[2] = sc.next();
+					System.out.println(titleArr[0] + "번 게시물의 내용을 입력해 주세요. :");
+					titleArr[2] = sc.next();
 
-				ms2[count] = ms;
-				System.out.println("게시물이 등록 되었습니다.");
+					postArr[count] = titleArr;
+					System.out.println("게시물이 등록 되었습니다.");
 
-				seq++;
-				count++;
+					seq++;
+					count++;
+
+				}
 			}
-			
-			//리스트 입력 시, 전체 리스트가 안나옴
+
 			else if (a.equals("list")) {
 				for (int i = 0; i < count; i++) {
-					System.out.println(
-							ms2[i][0] + "제목 [ " + ms2[i][1] + "]" + "->" + ms2[i][0] + "내용[" + ms2[i][2] + "]");
+					System.out.println(postArr[i][0] + "제목 [ " + postArr[i][1] + "]");
+					System.out.println(postArr[i][0] + "내용[" + postArr[i][2] + "]");
 				}
 
 			}
-			
-			if(a.equals("exit")) {
+
+			if (a.equals("exit")) {
 				break;
-				
-				
+
 			}
 		}
-
 
 	}
 
