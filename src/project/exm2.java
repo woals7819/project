@@ -1,65 +1,80 @@
 package project;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class exm2 {
 
 	public static void main(String[] args) {
-		ArrayList<Integer> a = new ArrayList<>();
-		ArrayList<String> b = new ArrayList<>();
-		String[][] zv = new String[6][2];
-		int count  = 0;
-		
-		parson 사람1 = new parson(17, "홍길동");
-	    parson 사람2 = new parson(19, "임꺽정");
-	    parson 사람3 = new parson(27, "이순신");
-	    parson 사람4 = new parson(32, "강감찬");
-	    parson 사람5 = new parson(53, "을지문덕");
-	    parson 사람6 = new parson(12, "황진이");
-	    parson av = new parson();
-	    
-	    for(int i= 0; i < zv.length; i++) {
-//	    	zv[count][0] = a.get(i);
-	    	zv[count][1] = b.get(i);
-	    }
-	    
-	    
-	    a.add(사람1.age);
-	    b.add(사람1.name);
-	    a.add(사람2.age);
-	    b.add(사람2.name);
-	    a.add(사람3.age);
-	    b.add(사람3.name);
-	    a.add(사람4.age);
-	    b.add(사람4.name);
-	    a.add(사람5.age);
-	    b.add(사람5.name);
-	    a.add(사람6.age);
-	    b.add(사람6.name);
-	    
-	    
-	    
-	    
-	    
-	    for(int i = 0; i < b.size(); i++) {
-	    	zv[count][0] = a.get(i);
+		ArrayList<parson> a = new ArrayList<>();
+		Scanner sc = new Scanner(System.in);
 
-	    	
-	    }
-	    
-	    
 		
+//		parson p1 = new parson(17, "홍길동");
+//	    parson p2 = new parson(19, "임꺽정");
+//	    parson p3 = new parson(27, "이순신");
+//	    parson p4 = new parson(32, "강감찬");
+//	    parson p5 = new parson(53, "을지문덕");
+//	    parson p6 = new parson(12, "황진이");
+	    
+	    int count = 1;
+	    
+	    while(true) {
+	    	System.out.println("명령어 : ");
+	    	String command = sc.next();
+	    	
+	    	
+	    	if(command.equals("add")) {
+	    		System.out.println("나이 : " );
+	    		int age = sc.nextInt();
+	    		
+	    		System.out.println("이름 : ");
+	    		String name = sc.next();
+	    		
+	    		parson ps = new parson(count, age, name);
+	    		
+	    		count++;
+	    		a.add(ps);
+	    		
+	    	}
+	    	
+	    	
+	    	else if(command.equals("name")) {
+	    		for(int i = 0; i < a.size(); i++) {
+//	    			parson ps = a.get(i);	    			
+//	    			System.out.println(a.get(i).name);
+	    			parson pps = new parson();
+	    			pps.ghaud();
+	    		}
+	    	}
+	    	// 2. 사람의 나이가 20 이하인 사람만 호명하게 해주세요.
+	    	else if(command.equals("20down")) {
+	    		for(int i = 0; i < a.size(); i++) {
+	    			if(20 > a.get(i).age) {
+	    				System.out.println("나이 : " + a.get(i).age);
+	    				System.out.println("이름 : " + a.get(i).name);
+	    			}
+	    		}
+	    	}
+	    }
+	   
+
+	    
+	    
+	
 
 	}
 
 }
 class parson{
+	int number;
 	int age;
 	String name;
 	
-	parson(int a, String b){
+	parson(int a, int b, String c){
 		age = a;
-		name = b;
+		number = b;
+		name = c;
 	}
 	
 	parson(){

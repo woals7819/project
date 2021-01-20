@@ -6,12 +6,9 @@ import java.util.Scanner;
 public class homePage {
 
 	public static void main(String[] args) {
-		ArrayList<Integer> postNumber = new ArrayList<Integer>();
-		ArrayList<String> title = new ArrayList<String>(); // 제목리스트
-		ArrayList<String> contents = new ArrayList<String>(); // 내용리스트
+		ArrayList<postMember> post = new ArrayList<>(); // 내용리스트
 
 		Scanner ms = new Scanner(System.in);
-		int count = 0; // 게시물 개수
 		int esq = 1; // 게시물 번호
 
 		while (true) {
@@ -19,52 +16,48 @@ public class homePage {
 			String command = ms.next();
 
 			if (command.equals("add")) {
-				postNumber.add(esq);
 				System.out.println("제목을 입력해주세요.");
-				title.add(count, ms.next());
+				String title = ms.next();
 				System.out.println("내용을 입력해주세요.");
-				contents.add(count, ms.next());
+				String contents = ms.next();
 
-				count++;
+				postMember member = new postMember(esq, title, contents);
+
 				esq++;
+				post.add(member);
 			}
 
 			else if (command.equals("list")) {
-				for (int i = 0; i < count; i++) {
-					System.out.println(postNumber.get(i) + "번 제목:" + title.get(i));
-					System.out.println(postNumber.get(i) + "번 내용:" + contents.get(i));
+				for (int i = 0; i < post.size(); i++) {
+					postMember member = post.get(i);
+					System.out.println("번호 : " + member.postnumber);
+					System.out.println("제목 : " + member.posttitle);
 				}
 			}
 
 			else if (command.equals("update")) {
 
 				System.out.println("수정할 게시물의 번호를 입력하세요. :");
-				int up = ms.nextInt();
-				int qlry = -1;
+				int id = ms.nextInt();
+				int targetNumber = -1;
 
-				for (int i = 0; i < postNumber.size(); i++) {
-					int updateNumber = postNumber.get(i);
-					if (updateNumber == up) {
-						qlry= i;
+				for (int i = 0; i < post.size(); i++) {
+					if (post.get(i).postnumber == id) {
+						targetNumber = i;
 					}
-					
-					if(qlry != -1) {
-						System.out.println("제목 :");
-						String newtitle = ms.next();
-						title.set(qlry, newtitle);
-						System.out.println("내용 :");
-						String newContents = ms.next();
-						contents.set(qlry, newContents);
-						
+
+					if (targetNumber != -1) {
+						System.out.println("새 제목 :");
+						String title = ms.next();
+
+						System.out.println("새 내용 :");
+						String contents = ms.next();
+
+						postMember member = new postMember(id, title, contents);
+						post.set(targetNumber, member);
+
 						System.out.println("수정이 완료되었습니다.");
-						
-						for (int z = 0; z < count; z++) {
-							System.out.println(postNumber.get(z) + "번 제목:" + title.get(z));
-							System.out.println(postNumber.get(z) + "번 내용:" + contents.get(z));
-						}
-						
-					}
-					else {
+					} else {
 						System.out.println("없는 게시물 번호 입니다.");
 					}
 				}
@@ -75,21 +68,18 @@ public class homePage {
 				int delet = ms.nextInt();
 				int qlry = -1;
 
-				for (int i = 0; i < postNumber.size(); i++) {
-					int deletPostNuber = postNumber.get(i);
-					if (delet == deletPostNuber) {
+				for (int i = 0; i < post.size(); i++) {
+
+					if (delet == post.get(i).postnumber) {
 						qlry = i;
 
-					} 
-					
-					if(qlry != -1) {
-						postNumber.remove(qlry);
-						title.remove(qlry);
-						contents.remove(qlry);
-						
-						System.out.println("삭제가 완료되었습니다.");					
 					}
-					else {
+
+					if (qlry != -1) {
+						post.remove(qlry);
+
+						System.out.println("삭제가 완료되었습니다.");
+					} else {
 						System.out.println("없는 게시물 번호 입니다.");
 					}
 				}
