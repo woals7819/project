@@ -9,6 +9,7 @@ public class postMember {
 	private String nickname;
 
 
+	
 	public postMember(int postnumber, String posttitle, String postcontents, String postdate, int postviews,
 			String nickname) {
 		super();
@@ -18,7 +19,11 @@ public class postMember {
 		this.postdate = postdate;
 		this.postviews = postviews;
 		this.nickname = nickname;
+
 	}
+	
+
+
 
 	public String getNickname() {
 		return nickname;
