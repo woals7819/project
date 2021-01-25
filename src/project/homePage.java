@@ -9,12 +9,14 @@ public class homePage {
 
 	static ArrayList<postMember> post = new ArrayList<>(); // 내용리스트
 	static ArrayList<coment> coments = new ArrayList<>();
+	static ArrayList<signup> sgu = new ArrayList<>();
 	static Scanner ms = new Scanner(System.in);
 	static int viewNuber = 0;
 	static String coment = "";
 	static int esq = 4; // 게시물 번호
 	static String nickname = "익명";
 	static int comentNumber = 1;
+	static int userNumber = 1;
 
 	public static void main(String[] args) {
 
@@ -58,6 +60,17 @@ public class homePage {
 				searchPost();
 
 			}
+			
+			/* ===========================회원가입 기능========================== */
+			else if(command.equals("signup")) {
+				postSignup();
+			}
+			
+			/* ===========================로그인 기능========================== */
+			else if(command.equals("signin")) {
+				postSignin();
+			}
+			
 
 			/* ===========================기능 종료========================== */
 			else if (command.equals("exit")) {
@@ -66,6 +79,50 @@ public class homePage {
 
 		}
 
+	}
+	
+	
+
+	private static void postSignin() {
+		System.out.println("아이디 : ");
+		String id = ms.next();
+		System.out.println("비밀번호 : ");
+		String pw = ms.next();
+		
+		for (int i = 0; i < sgu.size(); i++) {
+			signup member = sgu.get(i);
+			String userId = member.getId();
+			String userPw = member.getPassword();
+			if (userId.equals(id)) {
+				if(userPw.equals(pw)) {
+					System.out.println(member.getNickname() + "님 환영합니다!.");
+				}
+			}
+			else {
+				System.out.println("비밀번호를 틀렸거나 잘못된 회원정보입니다.");
+			}
+		}
+		
+		
+	}
+
+	private static void postSignup() {
+		System.out.println("==== 회원 가입을 진행합니다 ====");
+		System.out.println("아이디를 입력해 주세요. : ");
+		String id = ms.next();
+		System.out.println("비밀번호를 입력해주세요. : ");
+		String ps = ms.next();
+		System.out.println("닉네임을 입력해주세요. : ");
+		String nick = ms.next();
+		
+		signup sign = new signup(userNumber, id, ps, nick);
+		
+		userNumber++;
+		sgu.add(sign);
+		
+		System.out.println(" ==== 회원가입이 완료되었습니다. ====");
+		
+		
 	}
 
 	/*-------------------------------------------------------------------------------------------*/
