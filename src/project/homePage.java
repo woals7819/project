@@ -11,101 +11,118 @@ public class homePage {
 	static ArrayList<coment> coments = new ArrayList<>();
 	static ArrayList<signup> sgu = new ArrayList<>();
 	static Scanner ms = new Scanner(System.in);
-	static int viewNuber = 0;
-	static String coment = "";
-	static int esq = 4; // 게시물 번호
 	static String nickname = "익명";
+	static String coment = "";
+	static signup loginedMember = null;
+	static int viewNuber = 0;
+	static int esq = 4; // 게시물 번호
 	static int comentNumber = 1;
 	static int userNumber = 1;
+	static int love = 0;
 
 	public static void main(String[] args) {
 
-		postMember member1 = new postMember(1, "제목1", "내용1", getCurrentDate(), viewNuber, nickname);
-		postMember member2 = new postMember(2, "제목2", "내용2", getCurrentDate(), viewNuber, nickname);
-		postMember member3 = new postMember(3, "제목3", "내용3", getCurrentDate(), viewNuber, nickname);
+		postMember member1 = new postMember(1, "제목1", "내용1", getCurrentDate(), viewNuber, nickname, love);
+		postMember member2 = new postMember(2, "제목2", "내용2", getCurrentDate(), viewNuber, nickname, love);
+		postMember member3 = new postMember(3, "제목3", "내용3", getCurrentDate(), viewNuber, nickname, love);
 
 		post.add(member1);
 		post.add(member2);
 		post.add(member3);
 
 		while (true) {
-			System.out.println("명령어를 입력해주세요.:");
-			String command = ms.next();
-
-			/* ===========================게시물 추가기능========================== */
-			if (command.equals("add")) {
-				addPost();
-			}
-			/* ===========================게시물 출력기능========================== */
-			else if (command.equals("list")) {
-
-				printPosttitle(post);
-			}
-			/* ===========================게시물 수정기능========================== */
-			else if (command.equals("update")) {
-				updatePost();
-			}
-			/* ===========================게시물 삭제기능========================== */
-			else if (command.equals("delet")) {
-				deletPost();
-			}
-
-			/* ===========================게시물 상세보기 기능========================== */
-			else if (command.equals("read")) {
-				readPost();
-
-			}
-			/* ===========================게시물 찾기 기능========================== */
-			else if (command.equals("search")) {
-				searchPost();
-
-			}
+				System.out.println("명령어를 입력해주세요.:");
+				String command = ms.next();				
 			
 			/* ===========================회원가입 기능========================== */
-			else if(command.equals("signup")) {
+			if (command.equals("signup")) {
 				postSignup();
 			}
 			
-			/* ===========================로그인 기능========================== */
-			else if(command.equals("signin")) {
-				postSignin();
+			/* ===========================게시물 출력기능========================== */
+			else if (command.equals("list")) {
+				
+				printPosttitle(post);
 			}
-			
-
 			/* ===========================기능 종료========================== */
 			else if (command.equals("exit")) {
 				break;
 			}
+			/* ===========================로그인 기능========================== */
+			else if (command.equals("signin")) {
+				postSignin();
+				while(true) {
+					System.out.println("명령어를 입력해주세요["+ loginedMember.getId() +"(" +loginedMember.getNickname() +")"+ "] :");
+					String userCommand = ms.next();
+					
+					/* ===========================게시물 추가기능========================== */
+					if (userCommand.equals("add")) {
+						addPost();
+					}
+					
+					/* ===========================게시물 수정기능========================== */
+					else if (userCommand.equals("update")) {
+						updatePost();
+					}
+					/* ===========================게시물 삭제기능========================== */
+					else if (userCommand.equals("delet")) {
+						deletPost();
+					}
+
+					/* ===========================게시물 상세보기 기능========================== */
+					else if (userCommand.equals("read")) {
+						readPost();
+
+					}
+					/* ===========================게시물 찾기 기능========================== */
+					else if (userCommand.equals("search")) {
+						searchPost();
+
+					}
+					
+					else if (userCommand.equals("exit")) {
+						break;
+					}
+
+				}
+			}
+
+			
+
+			
 
 		}
 
 	}
 	
 	
-
+	/*============================================로그인 메서드==================================================*/
 	private static void postSignin() {
 		System.out.println("아이디 : ");
 		String id = ms.next();
 		System.out.println("비밀번호 : ");
 		String pw = ms.next();
-		
+		boolean successed = true;
 		for (int i = 0; i < sgu.size(); i++) {
 			signup member = sgu.get(i);
-			String userId = member.getId();
+			String userid = member.getId();
 			String userPw = member.getPassword();
-			if (userId.equals(id)) {
-				if(userPw.equals(pw)) {
-					System.out.println(member.getNickname() + "님 환영합니다!.");
-				}
-			}
-			else {
-				System.out.println("비밀번호를 틀렸거나 잘못된 회원정보입니다.");
-			}
+			if (userid.equals(id) && userPw.equals(pw)) {
+				successed = false;
+				loginedMember = sgu.get(i);
+				String name = loginedMember.getNickname();
+				System.out.println(member.getNickname() + "님 환영합니다!.");
+				break;
+			} 
 		}
-		
-		
-	}
+		if(successed) {
+			System.out.println("비밀번호를 틀렸거나 잘못된 회원정보입니다.");
+		}
 
+	}
+	/*=========================================================================================================*/
+	
+	/*============================================회원가입 메서드==================================================*/
 	private static void postSignup() {
 		System.out.println("==== 회원 가입을 진행합니다 ====");
 		System.out.println("아이디를 입력해 주세요. : ");
@@ -114,18 +131,18 @@ public class homePage {
 		String ps = ms.next();
 		System.out.println("닉네임을 입력해주세요. : ");
 		String nick = ms.next();
-		
+
 		signup sign = new signup(userNumber, id, ps, nick);
-		
+
 		userNumber++;
 		sgu.add(sign);
-		
-		System.out.println(" ==== 회원가입이 완료되었습니다. ====");
-		
-		
-	}
 
-	/*-------------------------------------------------------------------------------------------*/
+		System.out.println(" ==== 회원가입이 완료되었습니다. ====");
+
+	}
+	/*=========================================================================================================*/
+
+	/*============================================상세보기 메서드==================================================*/
 	private static void readPost() {
 		System.out.println("원하는 게시물의 번호:");
 		int postNumber = ms.nextInt();
@@ -134,18 +151,18 @@ public class homePage {
 		if (readNumber != -1) {
 			postMember member = post.get(readNumber);
 
-			member.setPostviews(member.getPostviews() + 1); //조회수 값 올리기
+			member.setPostviews(member.getPostviews() + 1); // 조회수 값 올리기
 			printReadPost(member);
-			readProcess(member);
+			readProcess(postNumber,member);
 
 		} else {
 			System.out.println("없는 게시물 입니다.");
 		}
-
-
 	}
-
-	private static void readProcess(postMember members) {
+	/*=========================================================================================================*/
+	
+	/*========================================상세보기(프로세스) 메서드==============================================*/
+	private static void readProcess(int id,postMember members) {
 		while (true) {
 			System.out.println("상세보기 기능을 선택해주세요(1. 댓글 등록, 2. 좋아요, 3. 수정, 4. 삭제, 5. 목록으로) :");
 			int item = ms.nextInt();
@@ -161,17 +178,28 @@ public class homePage {
 				printReadPost(members);
 
 			} else if (item == 2) {
+				
+				members.setLove(members.getLove() + 1);			
+				printReadPost(members);
 
 			} else if (item == 3) {
+				int num = members.getPostnumber();
+				updateProcess(num);
+				
 
 			} else if (item == 4) {
+				int num = members.getPostnumber();
+				deletProcess(num);
 
 			} else if (item == 5) {
 				break;
 			}
 		}
 	}
-
+	/*=========================================================================================================*/
+	
+	
+	/*============================================상세정보출력 메서드==================================================*/
 	private static void printReadPost(postMember members) {
 		System.out.println("==========" + members.getPostnumber() + "번의 게시물 =========");
 		System.out.println("번호 : " + members.getPostnumber());
@@ -180,44 +208,71 @@ public class homePage {
 		System.out.println("작성자 : " + members.getNickname());
 		System.out.println("조회수 : " + members.getPostviews());
 		System.out.println("날짜 : " + members.getPostdate());
+		System.out.println("좋아요 : " + members.getLove());
 
 		System.out.println("================================");
 		System.out.println("================댓글==============");
 		for (int i = 0; i < coments.size(); i++) {
 			coment co = coments.get(i);
-			if(co.getParentId() == members.getPostnumber()) {
+			if (co.getParentId() == members.getPostnumber()) {
 				System.out.println("내용 : " + co.getComent());
 				System.out.println("작성자 : " + co.getNickname());
-				System.out.println("작성일 : " + co.getDate());				
+				System.out.println("작성일 : " + co.getDate());
 			}
 
 		}
 	}
+	/*=========================================================================================================*/
 
-	/*-------------------------------------------------------------------------------------------*/
+	
+	/*============================================삭제 메서드==================================================*/
 	private static void deletPost() {
 		System.out.println("삭제할 게시물의 번호를 입력해주세요. :");
 		int delet = ms.nextInt();
 		int deletNumber = searchNuber(delet);
 
 		if (deletNumber != -1) {
-			post.remove(deletNumber);
-
-			System.out.println("삭제가 완료되었습니다.");
-
-			for (int j = 0; j < post.size(); j++) {
-				postMember memberlist = post.get(j);
-				System.out.println("번호 : " + memberlist.getPostnumber());
-				System.out.println("제목 : " + memberlist.getPosttitle());
-				System.out.println("================================");
-			}
+			deletProcess(delet);
 		} else {
 			System.out.println("없는 게시물 번호 입니다.");
 		}
 
 	}
+	/*=========================================================================================================*/
+	
+	/*========================================삭제(프로세스) 메서드==============================================*/
+	private static void deletProcess(int delet) {
+		post.remove(searchNuber(delet));
 
-	/*-------------------------------------------------------------------------------------------*/
+		System.out.println("삭제가 완료되었습니다.");
+
+		for (int j = 0; j < post.size(); j++) {
+			postMember memberlist = post.get(j);
+			System.out.println("번호 : " + memberlist.getPostnumber());
+			System.out.println("제목 : " + memberlist.getPosttitle());
+			System.out.println("================================");
+		}
+	}
+	/*=========================================================================================================*/
+	
+	
+	/*==========================================게시물번호 검색 메서드===============================================*/
+	public static int searchNuber(int id) {
+		int targetNumber = -1;
+
+		for (int i = 0; i < post.size(); i++) {
+
+			if (id == post.get(i).getPostnumber()) {
+				targetNumber = i;
+
+			}
+		}
+		return targetNumber;
+	}
+	/*=========================================================================================================*/
+	
+	
+	/*============================================게시물검색 메서드==================================================*/
 	private static void searchPost() {
 		System.out.println("검색 항목을 선택해주세요.(1.제목, 2.내용, 3. 제목+내용, 4.작성자) : ");
 		int item = ms.nextInt();
@@ -267,56 +322,57 @@ public class homePage {
 		}
 
 	}
-
-	/*-------------------------------------------------------------------------------------------*/
+	/*=========================================================================================================*/
+	
+	
+	/*============================================게시물수정 메서드==================================================*/
 	private static void updatePost() {
 		System.out.println("수정할 게시물의 번호를 입력하세요. :");
 		int id = ms.nextInt();
-		int updateNumber = searchNuber(id);
-
-		if (updateNumber != -1) {
-			System.out.println("새 제목 :");
-			String title = ms.next();
-
-			System.out.println("새 내용 :");
-			String contents = ms.next();
-			String postdate = getCurrentDate();
-			int postview = viewNuber;
-			String postcoment = coment;
-
-			postMember member = new postMember(id, title, contents, postdate, postview, nickname);
-			post.set(updateNumber, member);
+//		int updateNumber = searchNuber(id);
+		if (id != -1) {
+			updateProcess(id);
+			
 
 			System.out.println("수정이 완료되었습니다.");
 
-			for (int j = 0; j < post.size(); j++) {
-				postMember memberlist = post.get(j);
-				System.out.println("번호 : " + memberlist.getPostnumber());
-				System.out.println("제목 : " + memberlist.getPosttitle());
-				System.out.println("날짜 : " + memberlist.getPostdate());
-				System.out.println("================================");
-			}
 		} else {
 			System.out.println("없는 게시물 번호 입니다.");
 		}
 
+		
+
 	}
+	/*=========================================================================================================*/
 
-	/*-------------------------------------------------------------------------------------------*/
-	public static int searchNuber(int id) {
-		int targetNumber = -1;
+	
+	/*========================================수정(프로세스) 메서드==============================================*/
+	public static void updateProcess(int id) {
+		System.out.println("새 제목 :");
+		String title = ms.next();
 
-		for (int i = 0; i < post.size(); i++) {
-
-			if (id == post.get(i).getPostnumber()) {
-				targetNumber = i;
-
-			}
+		System.out.println("새 내용 :");
+		String contents = ms.next();
+		String postdate = getCurrentDate();
+		int postview = viewNuber;
+		String postcoment = coment;
+		int good = love;
+		
+		postMember member = new postMember(id, title , contents, postdate, postview, nickname, good);
+		post.set(searchNuber(id), member);
+		
+		for (int j = 0; j < post.size(); j++) {
+			postMember memberlist = post.get(j);
+			System.out.println("번호 : " + memberlist.getPostnumber());
+			System.out.println("제목 : " + memberlist.getPosttitle());
+			System.out.println("날짜 : " + memberlist.getPostdate());
+			System.out.println("================================");
 		}
-		return id;
 	}
-
-	/*-------------------------------------------------------------------------------------------*/
+	/*=========================================================================================================*/
+	
+	
+	/*========================================list실행 메서드==============================================*/
 	public static void printPosttitle(ArrayList<postMember> post) {
 		for (int i = 0; i < post.size(); i++) {
 			postMember member = post.get(i);
@@ -331,8 +387,10 @@ public class homePage {
 			System.out.println("================================");
 		}
 	}
-
-	/*-------------------------------------------------------------------------------------------*/
+	/*=========================================================================================================*/
+	
+	
+	/*========================================게시물추가 메서드==============================================*/
 	public static void addPost() {
 		System.out.println("제목을 입력해주세요.");
 		String title = ms.next();
@@ -340,14 +398,18 @@ public class homePage {
 		String contents = ms.next();
 		String postcoment = coment;
 		int postviews = viewNuber;
+		int good = love;
 
-		postMember member = new postMember(esq, title, contents, getCurrentDate(), postviews, nickname);
+		postMember member = new postMember(esq, title, contents, getCurrentDate(), postviews, nickname, love);
 
 		esq++;
 		post.add(member);
 	}
-
-	/*-------------------------------------------------------------------------------------------*/
+	/*=========================================================================================================*/
+	
+	
+	
+	/*========================================게시물날짜 메서드==============================================*/
 	public static String getCurrentDate() {
 		SimpleDateFormat date = new SimpleDateFormat("yyyy.MM.dd HH:ss");
 		Date time = new Date();

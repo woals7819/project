@@ -7,11 +7,11 @@ public class postMember {
 	private String postdate;
 	private int postviews;
 	private String nickname;
+	private int love;
 
 
-	
 	public postMember(int postnumber, String posttitle, String postcontents, String postdate, int postviews,
-			String nickname) {
+			String nickname, int love) {
 		super();
 		this.postnumber = postnumber;
 		this.posttitle = posttitle;
@@ -19,9 +19,23 @@ public class postMember {
 		this.postdate = postdate;
 		this.postviews = postviews;
 		this.nickname = nickname;
-
+		this.love = love;
 	}
 	
+	
+	
+
+	public int getLove() {
+		return love;
+	}
+
+
+
+
+	public void setLove(int love) {
+		this.love = love;
+	}
+
 
 
 
