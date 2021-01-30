@@ -16,7 +16,6 @@ public class homePage {
 	static int viewNuber = 0;
 	static int esq = 4; // 게시물 번호
 	static int comentNumber = 1;
-	static int userNumber = 1;
 	static int love = 0;
 
 	public static void main(String[] args) {
