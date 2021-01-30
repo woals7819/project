@@ -126,10 +126,9 @@ public class homePage {
 		String ps = ms.next();
 		System.out.println("닉네임을 입력해주세요. : ");
 		String nick = ms.next();
-		signup sign = new signup(userNumber, id, ps, nick);
+		signup sign = new signup(id, ps, nick);
 
 		MemberDao membersgu = new MemberDao();
-		userNumber++;
 		membersgu.InsertMember(sign);
 
 		System.out.println(" ==== 회원가입이 완료되었습니다. ====");
