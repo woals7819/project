@@ -2,10 +2,12 @@ package project;
 
 import java.util.ArrayList;
 
-/*Dao = DATA ACCESS OBJECT*/ 
+/*Dao = DATA ACCESS OBJECT
+ * MVC = Model(data) View(데이터의 표현) Controller(model 과 view의 호환*/ 
 public class ArticleDao {
 	ArrayList<postMember> post = new ArrayList<>(); // 내용리스트
 	ArrayList<coment> coments = new ArrayList<>();
+	
 	
 	
 	

@@ -1,21 +1,43 @@
 package project;
 
 public class signup {
+	int number;
 	String id;
 	String password;
 	String nickname;
 	
 	
 
-
+	public signup(int number, String id, String password, String nickname) {
+		super();
+		this.number = number;
+		this.id = id;
+		this.password = password;
+		this.nickname = nickname;
+	}
+	
 	public signup(String id, String password, String nickname) {
 		super();
 		this.id = id;
 		this.password = password;
 		this.nickname = nickname;
 	}
+
+
 	
-	
+
+	public int getNumber() {
+		return number;
+	}
+
+
+
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+
 
 
 	public String getNickname() {

@@ -8,6 +8,24 @@ public class postMember {
 	private int postviews;
 	private String nickname;
 	private int love;
+	private int id;
+
+	
+	
+	public postMember(int postnumber, String posttitle, String postcontents, String postdate, int postviews,
+			String nickname, int love, int id) {
+		super();
+		this.postnumber = postnumber;
+		this.posttitle = posttitle;
+		this.postcontents = postcontents;
+		this.postdate = postdate;
+		this.postviews = postviews;
+		this.nickname = nickname;
+		this.love = love;
+		this.id = id;
+	}
+
+
 
 
 	public postMember(int postnumber, String posttitle, String postcontents, String postdate, int postviews,
@@ -24,6 +42,20 @@ public class postMember {
 	
 	
 	
+
+	public int getId() {
+		return id;
+	}
+
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
 
 	public int getLove() {
 		return love;
