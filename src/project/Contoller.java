@@ -2,8 +2,10 @@ package project;
 
 import java.util.Scanner;
 
-public class MemberController extends Controller{
-	
+public class Contoller {
+
+	ArticleDao article = new ArticleDao();
+	Scanner ms = new Scanner(System.in);
 	MemberDao mb = new MemberDao();
 	signup loginedMember = null;
 	String coment = "";
@@ -11,57 +13,79 @@ public class MemberController extends Controller{
 	int comentNumber = 1;
 	int love = 0;
 	int esq = 4; // 게시물 번호
-	
-	void DoCommand(String command) {
-		
-		if (command.equals("signup")) {
-			postSignup();
-		}
-		/*==========================================================================*/
-		else if (command.equals("add") || command.equals("update") || command.equals("delete")
-				|| command.equals("read") || command.equals("search")) {
-			needogin();
-		}
-		/*==========================================================================*/
 
-		else if (command.equals("signin")) {
-			postSignin();
-			while (true) {
-				System.out.println("명령어를 입력해주세요[" + loginedMember.getId() + "(" + loginedMember.getNickname() + ")" + "] :");
-				String userCommand = ms.nextLine();
+	public void DoCommand() {
+		while (true) {
+			System.out.println("명령어를 입력해주세요.:");
+			String command = ms.nextLine();
+			/* ===========================게시물 출력기능========================== */
+			if (command.equals("article list")) {
 
-				/* ===========================게시물 추가기능========================== */
-				if (userCommand.equals("add")) {
-					addPost();
+				article.printPosttitle(article.ReturnPostArray());
+			}
+
+			else if (command.equals("member signup")) {
+				postSignup();
+			}
+			/* ========================================================================== */
+			else if (command.equals("article add") || command.equals("article update")
+					|| command.equals("article delete") || command.equals("article read")
+					|| command.equals("article search")) {
+				needogin();
+			}
+			/* ========================================================================== */
+
+			else if (command.equals("member signin")) {
+				postSignin();
+				while (true) {
+					System.out.println(
+							"명령어를 입력해주세요[" + loginedMember.getId() + "(" + loginedMember.getNickname() + ")" + "] :");
+					String userCommand = ms.nextLine();
+
+					/* ===========================게시물 추가기능========================== */
+					if (userCommand.equals("member add")) {
+						addPost();
+					}
+					else if(userCommand.equals("member list")) {
+						memberList();
+					}
+
+					/* ===========================게시물 수정기능========================== */
+					else if (userCommand.equals("member update")) {
+						updatePost();
+					}
+					/* ===========================게시물 삭제기능========================== */
+					else if (userCommand.equals("member delete")) {
+						deletPost();
+					}
+
+					/* ===========================게시물 상세보기 기능========================== */
+					else if (userCommand.equals("member read")) {
+						readPost();
+
+					}
+					/* ===========================게시물 찾기 기능========================== */
+					else if (userCommand.equals("member search")) {
+						searchPost();
+
+					}
+
+					else if (userCommand.equals("member logout")) {
+						System.out.println("로그아웃 되었습니다.");
+						break;
+					}
+
 				}
-
-				/* ===========================게시물 수정기능========================== */
-				else if (userCommand.equals("update")) {
-					updatePost();
-				}
-				/* ===========================게시물 삭제기능========================== */
-				else if (userCommand.equals("delete")) {
-					deletPost();
-				}
-
-				/* ===========================게시물 상세보기 기능========================== */
-				else if (userCommand.equals("read")) {
-					readPost();
-
-				}
-				/* ===========================게시물 찾기 기능========================== */
-				else if (userCommand.equals("search")) {
-					searchPost();
-
-				}
-
-				else if (userCommand.equals("logout")) {
-					System.out.println("로그아웃 되었습니다.");
-					break;
-				}
-
 			}
 		}
+	}
+
+	private void memberList() {
+		if(loginedMember != null) {
+			article.memberListProcess();
+		}
+		
+		
 	}
 
 	public void postSignup() {
@@ -73,15 +97,14 @@ public class MemberController extends Controller{
 		System.out.println("닉네임을 입력해주세요. : ");
 		String nick = ms.nextLine();
 
-
 		signup sign = new signup(id, ps, nick);
 		mb.InsertMember(sign);
 
 		System.out.println(" ==== 회원가입이 완료되었습니다. ====");
 
 	}
-	
-	/*==========================================================================*/
+
+	/* ========================================================================== */
 	public void postSignin() {
 		System.out.println("아이디 : ");
 		String id = ms.nextLine();
@@ -97,8 +120,8 @@ public class MemberController extends Controller{
 			System.out.println("잘못된 회원 정보입니다.");
 		}
 	}
-	
-	/*==========================================================================*/
+
+	/* ========================================================================== */
 	public void addPost() {
 		System.out.println("제목을 입력해주세요.");
 		String title = ms.nextLine();
@@ -109,13 +132,14 @@ public class MemberController extends Controller{
 		int postviews = viewNuber;
 		int good = love;
 
-		postMember member = new postMember(esq, title, contents, UtilDao.getCurrentDate(), postviews, name, love, loginedMember.getNumber());
+		postMember member = new postMember(esq, title, contents, UtilDao.getCurrentDate(), postviews, name, love,
+				loginedMember.getNumber());
 
 		esq++;
 		article.AddMember(member);
 	}
-	
-	/*==========================================================================*/
+
+	/* ========================================================================== */
 	public void updatePost() {
 		System.out.println("수정할 게시물의 번호를 입력하세요. :");
 		int id = Integer.parseInt(ms.nextLine());
@@ -131,7 +155,7 @@ public class MemberController extends Controller{
 
 	}
 
-	/*==========================================================================*/
+	/* ========================================================================== */
 	public void updateProcess(int id) {
 		System.out.println("새 제목 :");
 		String title = ms.nextLine();
@@ -147,8 +171,8 @@ public class MemberController extends Controller{
 		postMember member = new postMember(id, title, contents, postdate, postview, name, good);
 		article.UpdateProccessSet(id, member);
 	}
-	
-	/*==========================================================================*/
+
+	/* ========================================================================== */
 	public void deletPost() {
 		System.out.println("삭제할 게시물의 번호를 입력해주세요. :");
 		int delet = Integer.parseInt(ms.nextLine());
@@ -161,8 +185,8 @@ public class MemberController extends Controller{
 		}
 
 	}
-	
-	/*==========================================================================*/
+
+	/* ========================================================================== */
 	public void readPost() {
 		System.out.println("원하는 게시물의 번호:");
 		int postNumber = Integer.parseInt(ms.nextLine());
@@ -178,7 +202,7 @@ public class MemberController extends Controller{
 		member.setPostviews(member.getPostviews() + 1); // 조회수 값 올리기
 	}
 
-	/*==========================================================================*/
+	/* ========================================================================== */
 	public void readProcess(int id, postMember members) {
 		while (true) {
 			System.out.println("상세보기 기능을 선택해주세요(1. 댓글 등록, 2. 좋아요, 3. 수정, 4. 삭제, 5. 목록으로) :");
@@ -201,27 +225,28 @@ public class MemberController extends Controller{
 				printReadPost(members);
 
 			} else if (item == 3) {
-				if(members.getId() == loginedMember.getNumber()) {
+				if (members.getId() == loginedMember.getNumber()) {
 					int num = members.getPostnumber();
-					updateProcess(num);					
-				}
-				else {
+					updateProcess(num);
+				} else {
 					System.out.println("자신의 게시물만 변경할 수있습니다.");
 				}
-				
 
 			} else if (item == 4) {
-				postMember mb = article.GetIndex(members.getPostnumber());
-				article.deletProcess(mb);
-				
+				if (members.getId() == loginedMember.getNumber()) {
+					postMember mb = article.GetIndex(members.getPostnumber());
+					article.deletProcess(mb);
+				} else {
+					System.out.println("자신의 게시물만 변경할 수있습니다.");
+				}
 
 			} else if (item == 5) {
 				break;
 			}
 		}
 	}
-	
-	/*==========================================================================*/
+
+	/* ========================================================================== */
 	private void searchPost() {
 		System.out.println("검색 항목을 선택해주세요.(1.제목, 2.내용, 3. 제목+내용, 4.작성자) : ");
 		int item = Integer.parseInt(ms.nextLine());
@@ -231,8 +256,8 @@ public class MemberController extends Controller{
 		article.SerachPost(item, keywoard);
 
 	}
-	
-	/*==========================================================================*/
+
+	/* ========================================================================== */
 	private void printReadPost(postMember members) {
 		System.out.println("==========" + members.getPostnumber() + "번의 게시물 =========");
 		System.out.println("번호 : " + members.getPostnumber());
@@ -242,17 +267,16 @@ public class MemberController extends Controller{
 		System.out.println("조회수 : " + members.getPostviews());
 		System.out.println("날짜 : " + members.getPostdate());
 		System.out.println("좋아요 : " + members.getLove());
-		
+
 		System.out.println("================================");
 		System.out.println("================댓글==============");
 		article.PrintComents(members);
 	}
-	
-	/*==========================================================================*/
+
+	/* ========================================================================== */
 	public static void needogin() {
 		System.out.println("로그인이 필요한 기능입니다.");
 
 	}
-	
 
 }

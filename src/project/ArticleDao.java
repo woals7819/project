@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class ArticleDao {
 	ArrayList<postMember> post = new ArrayList<>(); // 내용리스트
 	ArrayList<coment> coments = new ArrayList<>();
-	
+	signup loginedMember = null;
 	
 	
 	
@@ -156,7 +156,20 @@ public class ArticleDao {
 		}
 	}
 	
-	
+	public void memberListProcess() {
+		for(int i = 0; i < post.size(); i++) {
+			postMember member = post.get(i);
+			int postname = member.getId();
+			int signname = loginedMember.number;
+			if(postname == signname) {
+				GetIndex(signname);
+				System.out.println("번호 : " + member.getPostnumber());
+				System.out.println("제목 : " + member.getPosttitle());
+				System.out.println("날짜 : " + member.getPostdate());
+				System.out.println("================================");
+			}
+		}
+	}
 	
 	
 	
